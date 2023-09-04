@@ -24,43 +24,34 @@ class _janmasthamiState extends State<janmasthami> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: quotes
-              .map(
-                (e) => (e['fastival'] == "janmashtami")
-                    ? GestureDetector(
-                        onTap: () {
-                          Quotes q = Quotes(
-                            quote: e['quote'],
-                            author: e['author'],
-                            fastivaL: e['fastival'],
-                          );
-                          Navigator.of(context)
-                              .pushNamed("detils_page", arguments: q);
-                        },
-                        child: Container(
-                          height: 150,
-                          width: 400,
-                          margin: EdgeInsets.all(10),
-                          color: Global.mycolor,
-                          child: Center(
-                            child: Text(
-                              e['quote'],
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.black,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(),
-              )
-              .toList(),
-        ),
-      ),
+      body: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            // childAspectRatio: 3 / 2,
+          ),
+          itemCount: 10,
+          itemBuilder: (BuildContext ctx, index) {
+            return GestureDetector(
+              onTap: () {
+                Quotes q = Quotes(
+                  quote: quotes[index + 10]["quote"],
+                  author: quotes[index + 10]["author"],
+                  fastivaL: quotes[index + 10]["fastival"],
+                );
+                Navigator.of(context).pushNamed("detils_page", arguments: q);
+              },
+              child: Container(
+                height: 150,
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Text("${quotes[index + 10]["quote"]}"),
+              ),
+            );
+          }),
     );
   }
 }

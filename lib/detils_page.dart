@@ -1,6 +1,12 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:fastival_app/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'list.dart';
 
@@ -10,6 +16,25 @@ class detiles extends StatefulWidget {
 }
 
 class _detilesState extends State<detiles> {
+  void ShareImage() async {
+    RenderRepaintBoundary bountry = await imagekey.currentContext!
+        .findRenderObject() as RenderRepaintBoundary;
+
+    var image = await bountry.toImage(pixelRatio: 2);
+
+    var bit = await image.toByteData(format: ImageByteFormat.png);
+
+    var uList = await bit!.buffer.asInt8List();
+
+    Directory directory = await getApplicationDocumentsDirectory();
+
+    File file = await File("${directory.path}.png").create();
+    await file.writeAsBytes(uList);
+
+    Share.shareXFiles([XFile(file.path)]);
+  }
+
+  GlobalKey imagekey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     Quotes data = ModalRoute.of(context)!.settings.arguments as Quotes;
@@ -19,10 +44,12 @@ class _detilesState extends State<detiles> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text("Detils of Fastival",
-            style: TextStyle(
-              color: Colors.black,
-            )),
+        title: Text(
+          "Detils of Fastival",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -36,27 +63,38 @@ class _detilesState extends State<detiles> {
             },
             icon: Icon(Icons.refresh),
           ),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  ShareImage();
+                });
+              },
+              icon: const Icon(Icons.share)),
         ],
       ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.all(20),
-            padding: EdgeInsets.all(20),
-            height: 350,
-            width: double.infinity,
-            decoration: BoxDecoration(
+          RepaintBoundary(
+            key: imagekey,
+            child: Container(
+              margin: EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
+              height: 350,
+              width: double.infinity,
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 color: Global.mycolor,
                 image: DecorationImage(
                     image: AssetImage(Global.backgroundimage),
-                    fit: BoxFit.fill)),
-            child: Center(
-              child: Text(
-                data.quote,
-                style: GoogleFonts.getFont(Global.myfontfamily, fontSize: 30)
-                    .merge(
-                  TextStyle(color: Global.fontcolor),
+                    fit: BoxFit.fill),
+              ),
+              child: Center(
+                child: Text(
+                  data.quote,
+                  style: GoogleFonts.getFont(Global.myfontfamily, fontSize: 30)
+                      .merge(
+                    TextStyle(color: Global.fontcolor),
+                  ),
                 ),
               ),
             ),

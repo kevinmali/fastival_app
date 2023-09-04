@@ -32,8 +32,8 @@ class _HomepageState extends State<Homepage> {
           child: Column(
             children: [
               Container(
-                height: 200,
-                width: 450,
+                height: 400,
+                width: 400,
                 margin: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
@@ -49,7 +49,7 @@ class _HomepageState extends State<Homepage> {
                   });
                 },
                 child: Container(
-                  height: 200,
+                  height: 400,
                   width: 450,
                   margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -67,7 +67,7 @@ class _HomepageState extends State<Homepage> {
                   });
                 },
                 child: Container(
-                  height: 200,
+                  height: 400,
                   width: 450,
                   margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -85,7 +85,7 @@ class _HomepageState extends State<Homepage> {
                   });
                 },
                 child: Container(
-                  height: 200,
+                  height: 400,
                   width: 450,
                   margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -103,7 +103,7 @@ class _HomepageState extends State<Homepage> {
                   });
                 },
                 child: Container(
-                  height: 200,
+                  height: 400,
                   width: 450,
                   margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
